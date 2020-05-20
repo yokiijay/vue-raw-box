@@ -1,6 +1,6 @@
 {
   "name": "vue-raw-box",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A vue component from Vue Raw UI Library",
   "main": "dist/box.ssr.js",
   "browser": "dist/box.esm.js",
