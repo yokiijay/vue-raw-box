@@ -1,18 +1,15 @@
 {
   "name": "vue-raw-box",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A vue component from Vue Raw UI Library",
-
   "main": "dist/box.ssr.js",
   "browser": "dist/box.esm.js",
   "module": "dist/box.esm.js",
   "unpkg": "dist/box.min.js",
-
   "files": [
     "dist/*",
     "src/**/*.vue"
   ],
-
   "scripts": {
     "serve": "vue-cli-service serve dev/serve.js",
     "build:watch": "cross-env NODE_ENV=production rollup --config build/rollup.config.js -w",
@@ -21,10 +18,7 @@
     "build:es": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format es",
     "build:unpkg": "cross-env NODE_ENV=production rollup --config build/rollup.config.js --format iife"
   },
-
-  "dependencies": {
-  },
-
+  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
