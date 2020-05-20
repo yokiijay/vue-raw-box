@@ -1,77 +1,113 @@
-<script>
-export default {
-  name: 'Box', // vue component name
-  data() {
-    return {
-      counter: 5,
-      initCounter: 5,
-      message: {
-        action: null,
-        amount: null,
-      },
-    };
-  },
-  computed: {
-    changedBy() {
-      const { message } = this;
-      if (!message.action) return 'initialized';
-      return `${message?.action} ${message.amount ?? ''}`.trim();
-    },
-  },
-  methods: {
-    increment(arg) {
-      const amount = (typeof arg !== 'number') ? 1 : arg;
-      this.counter += amount;
-      this.message.action = 'incremented by';
-      this.message.amount = amount;
-    },
-    decrement(arg) {
-      const amount = (typeof arg !== 'number') ? 1 : arg;
-      this.counter -= amount;
-      this.message.action = 'decremented by';
-      this.message.amount = amount;
-    },
-    reset() {
-      this.counter = this.initCounter;
-      this.message.action = 'reset';
-      this.message.amount = null;
-    },
-  },
-};
-</script>
-
 <template>
-  <div class="box">
-    <p>The counter was {{ changedBy }} to <b>{{ counter }}</b>.</p>
-    <button @click="increment">
-      Click +1
-    </button>
-    <button @click="decrement">
-      Click -1
-    </button>
-    <button @click="increment(5)">
-      Click +5
-    </button>
-    <button @click="decrement(5)">
-      Click -5
-    </button>
-    <button @click="reset">
-      Reset
-    </button>
+  <div class="box" :style="{
+    margin: selfCenter ? '0 auto' : 'unset',
+    flexDirection,
+    flexWrap,
+    justifyContent,
+    alignItems,
+    width,
+    height,
+    minWidth: width ? width : 'unset',
+    minHeight: height ? height : 'unset',
+    flex: flex ? parseFloat(flex) : 'unset'
+  }">
+    <slot></slot>
   </div>
 </template>
 
-<style scoped>
-  .box {
-    display: block;
-    width: 400px;
-    margin: 25px auto;
-    border: 1px solid #ccc;
-    background: #eaeaea;
-    text-align: center;
-    padding: 25px;
+<script>
+export default {
+  name: 'Box',
+  props: {
+    left: Boolean,
+    right: Boolean,
+    top: Boolean,
+    bottom: Boolean,
+    center: Boolean,
+    wrap: Boolean,
+    row: Boolean,
+    alignX: String,
+    alignY: String,
+    size: [String, Number, Array],
+    selfCenter: Boolean,
+    flex: [String, Number]
+  },
+  computed: {
+    flexDirection(){
+      return this.row ? 'row' : 'column'
+    },
+    flexWrap(){
+      return this.wrap ? 'wrap' : 'nowrap'
+    },
+    justifyContent(){
+      let justifyContent = 'flex-start'
+
+      if(this.row){ //横着
+        if(this.center) justifyContent = 'center'
+        if(this.left) justifyContent = 'flex-start'
+        if(this.right) justifyContent = 'flex-end'
+        if(this.alignX) justifyContent = this.alignX
+      }else {//竖着
+        if(this.center) justifyContent = 'center'
+        if(this.top) justifyContent = 'flex-start'
+        if(this.bottom) justifyContent = 'flex-end'
+        if(this.alignY) justifyContent = this.alignY
+      }
+
+      return justifyContent
+    },
+    alignItems(){
+      let alignItems = 'flex-start'
+
+      if(!this.row){ //竖着
+        if(this.center) alignItems = 'center'
+        if(this.left) alignItems = 'flex-start'
+        if(this.right) alignItems = 'flex-end'
+        if(this.alignX) alignItems = this.alignX
+      }else {//横着
+        if(this.center) alignItems = 'center'
+        if(this.top) alignItems = 'flex-start'
+        if(this.bottom) alignItems = 'flex-end'
+        if(this.alignY) alignItems = this.alignY
+      }
+
+      return alignItems
+    },
+    width(){
+      if(!this.size) return
+      switch(this.size.constructor.name){
+        case 'String':
+          return this.size.match(/^\d+$/) ? this.size*1+'px' : parseFloat(this.size)+'px'
+        case 'Number':
+          return this.size
+        case 'Array':
+          return this.size[0].match(/^\d+$/) ? this.size[0]*1+'px' : parseFloat(this.size[0])+'px'
+        default:
+          return false
+      }
+    },
+    height(){
+      if(!this.size) return
+      switch(this.size.constructor.name){
+        case 'String':
+          return this.size.match(/^\d+$/) ? this.size*1+'px' : parseFloat(this.size)+'px'
+        case 'Number':
+          return this.size
+        case 'Array':
+          return this.size[1].match(/^\d+$/) ? this.size[1]*1+'px' : parseFloat(this.size[1])+'px'
+        default:
+          return false
+      }
+    }
+  },
+  mounted(){
+    console.log( this.width )
   }
-  .box p {
-    margin: 0 0 1em;
-  }
+}
+</script>
+
+<style lang="scss" scoped>
+.box {
+  display: flex;
+}
 </style>
