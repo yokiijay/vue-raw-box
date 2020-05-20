@@ -1,15 +1,15 @@
 <template>
   <div class="box" :style="{
-    margin: selfCenter ? '0 auto' : 'unset',
+    margin: selfCenter ? '0 auto' : '',
     flexDirection,
     flexWrap,
     justifyContent,
     alignItems,
     width,
     height,
-    minWidth: width ? width : 'unset',
-    minHeight: height ? height : 'unset',
-    flex: flex ? parseFloat(flex) : 'unset'
+    minWidth: width ? width : '',
+    minHeight: height ? height : '',
+    flex: flex ? parseFloat(flex) : ''
   }">
     <slot></slot>
   </div>
