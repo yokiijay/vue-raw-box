@@ -1,7 +1,6 @@
 # vue-raw-box
  A vue component from Vue Raw UI library.
 
- [See document](https://yokiijay.github.io/vue-raw-box/static/)
 
 > Raw UI 是一套原始UI组件库
 
