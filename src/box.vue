@@ -1,5 +1,5 @@
 <template>
-  <div class="box" :style="{
+  <div class="box" :class="{'box--avatar': avatar}" :style="{
     margin: selfCenter ? '0 auto' : '',
     flexDirection,
     flexWrap,
@@ -30,7 +30,8 @@ export default {
     alignY: String,
     size: [String, Number, Array],
     selfCenter: Boolean,
-    flex: [String, Number]
+    flex: [String, Number],
+    avatar: Boolean
   },
   computed: {
     flexDirection(){
@@ -81,7 +82,8 @@ export default {
         case 'Number':
           return this.size
         case 'Array':
-          return this.size[0].match(/^\d+$/) ? this.size[0]*1+'px' : parseFloat(this.size[0])+'px'
+          if(!this.size[0]) return 'auto'
+          return this.size[0].toString().match(/^\d+$/) ? this.size[0]*1+'px' : parseFloat(this.size[0])+'px'
         default:
           return false
       }
@@ -94,14 +96,20 @@ export default {
         case 'Number':
           return this.size
         case 'Array':
-          return this.size[1].match(/^\d+$/) ? this.size[1]*1+'px' : parseFloat(this.size[1])+'px'
+          if(!this.size[1]) return 'auto'
+          return this.size[1].toString().match(/^\d+$/) ? this.size[1]*1+'px' : parseFloat(this.size[1])+'px'
         default:
           return false
       }
+    },
+    objectFit(){
+      switch(this.fit.constructor.name){
+        case 'String':
+          return this.fit
+        case 'Boolean':
+          return 'cover'
+      }
     }
-  },
-  mounted(){
-    console.log( this.width )
   }
 }
 </script>
@@ -109,5 +117,15 @@ export default {
 <style lang="scss" scoped>
 .box {
   display: flex;
+}
+.box--avatar {
+  overflow: hidden;
+  border-radius: 50%;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 }
 </style>
